@@ -1,0 +1,27 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto h-[80vh] flex flex-col glass rounded-3xl shadow-xl border border-white overflow-hidden">
+    <div class="bg-black p-4 text-[#fee600] flex items-center justify-between">
+        <span class="font-bold tracking-tight">AI Banking Assistant</span>
+        <span class="text-[10px] uppercase border border-[#fee600] px-2 py-1 rounded-full">OpenAI Powered</span>
+    </div>
+
+    <div id="chat-window" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50/50">
+        {% include 'portfolio/chat_messages.html' %}
+    </div>
+
+    <div class="p-4 bg-white border-t border-slate-100">
+        <form hx-post="{% url 'qa' %}" 
+              hx-target="#chat-window" 
+              hx-swap="innerHTML" 
+              hx-on::after-request="this.reset()"
+              class="flex gap-2">
+            {% csrf_token %}
+            <input type="text" name="question" placeholder="Zeptej se na portfolio..." 
+                   class="flex-1 p-3 bg-slate-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#fee600]">
+            <button type="submit" class="bg-black text-[#fee600] px-6 py-3 rounded-xl font-bold">Odeslat</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

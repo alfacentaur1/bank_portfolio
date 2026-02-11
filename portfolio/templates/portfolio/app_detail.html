@@ -1,0 +1,46 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+    <div class="bg-black p-8 text-[#fee600]">
+        <div class="flex justify-between items-start">
+            <div>
+                <h1 class="text-4xl font-black uppercase tracking-tight">{{ app.name }}</h1>
+                <p class="text-xl opacity-80 mt-1">{{ app.domain }}</p>
+            </div>
+            <div class="text-right text-sm">
+                <p class="opacity-70">Criticality</p>
+                <p class="font-bold text-lg px-3 py-1 bg-[#fee600] text-black rounded-full mt-1">{{ app.criticality }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-1 space-y-6">
+            <h2 class="text-xl font-bold border-b-4 border-[#fee600] inline-block mb-4">Core Info</h2>
+            <div class="space-y-3">
+                <p><span class="text-gray-500">Tech Stack:</span> <span class="font-semibold">{{ app.programming_languages }}</span></p>
+                <p><span class="text-gray-500">Environment:</span> <span class="font-semibold">{{ app.hosting_environment }}</span></p>
+                <p><span class="text-gray-500">Owner:</span> <span class="font-semibold">{{ app.business_owner }}</span> </p>
+                <p><span class="text-gray-500">Tech Debt:</span> <span class="text-red-600 font-bold italic">{{ app.tech_debt_score }}</span></p>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2">
+            <h2 class="text-xl font-bold mb-4">Integration Architecture</h2>
+            <div id="mermaid-container" class="bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center justify-center min-h-[400px]">
+                <button hx-get="{% url 'generate_mermaid' app.id %}" 
+                        hx-target="#mermaid-container" 
+                        hx-swap="innerHTML"
+                        class="bg-black text-[#fee600] font-black py-4 px-10 rounded-full hover:scale-105 transition shadow-2xl flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    GENERATE ARCHITECTURE MAP
+                </button>
+                <p class="mt-4 text-gray-400 text-sm">LLM will perform syntax check and one auto-fix attempt.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

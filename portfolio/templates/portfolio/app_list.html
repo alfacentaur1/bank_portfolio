@@ -1,0 +1,49 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex justify-between items-end">
+        <h1 class="text-3xl font-bold">Application Inventory</h1>
+        
+        <form method="GET" class="flex gap-2">
+            <input type="text" name="domain" placeholder="Filter by domain..." 
+                   class="border-2 border-black rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#fee600] outline-none">
+            <button type="submit" class="bg-black text-[#fee600] px-6 py-2 rounded-lg font-bold uppercase">Filter</button>
+        </form>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <table class="w-full text-left border-collapse">
+            <thead class="bg-black text-[#fee600] uppercase text-sm">
+                <tr>
+                    <th class="p-4">Name</th>
+                    <th class="p-4">Domain</th>
+                    <th class="p-4">Criticality</th>
+                    <th class="p-4">Stack</th>
+                    <th class="p-4 text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for app in apps %}
+                <tr class="hover:bg-yellow-50 transition">
+                    <td class="p-4 font-bold">{{ app.name }}</td>
+                    <td class="p-4">{{ app.domain }}</td>
+                    <td class="p-4">
+                        <span class="px-2 py-1 rounded text-xs font-bold 
+                            {% if app.criticality == 'High' %}bg-red-100 text-red-700
+                            {% elif app.criticality == 'Medium' %}bg-orange-100 text-orange-700
+                            {% else %}bg-green-100 text-green-700{% endif %}">
+                            {{ app.criticality }}
+                        </span>
+                    </td>
+                    <td class="p-4 text-sm text-gray-600">{{ app.programming_languages }}</td>
+                    <td class="p-4 text-center">
+                        <a href="{% url 'app_detail' app.id %}" class="text-black font-bold hover:underline">Detail →</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

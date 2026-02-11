@@ -1,0 +1,111 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+<div class="space-y-8 animate-in fade-in duration-700">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-3xl font-bold tracking-tight text-slate-900">Portfolio Overview</h1>
+            <p class="text-slate-500">Real-time status of Raiffeisen application landscape.</p>
+        </div>
+        <div class="flex gap-3">
+            <a href="{% url 'app_list' %}" class="px-5 py-2.5 bg-white border border-slate-200 rounded-xl shadow-sm hover:bg-slate-50 transition font-medium text-sm">
+                View Inventory
+            </a>
+            <a href="{% url 'analysis' %}" class="px-5 py-2.5 rb-gradient text-white rounded-xl shadow-lg hover:shadow-rb-yellow/20 transition font-medium text-sm">
+                Run AI Audit
+            </a>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="glass p-6 rounded-2xl border border-white shadow-sm">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Systems</p>
+            <h3 class="text-3xl font-bold mt-1">{{ total_apps }}</h3>
+            <div class="mt-2 text-xs text-green-600 font-medium">↑ 0 from last month</div>
+        </div>
+        <div class="glass p-6 rounded-2xl border border-white shadow-sm border-l-4 border-l-red-500">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">High Criticality</p>
+            <h3 class="text-3xl font-bold mt-1 text-red-600">{{ critical_apps }}</h3>
+            <div class="mt-2 text-xs text-slate-400 italic">Requires 24/7 support</div>
+        </div>
+        <div class="glass p-6 rounded-2xl border border-white shadow-sm border-l-4 border-l-blue-500">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Cloud Adoption</p>
+            <h3 class="text-3xl font-bold mt-1 text-blue-600">{{ cloud_apps }}</h3>
+            <div class="mt-2 text-xs text-blue-500 font-medium">{{ cloud_percentage }}% of total</div>
+        </div>
+        <div class="glass p-6 rounded-2xl border border-white shadow-sm border-l-4 border-l-[#fee600]">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Integrations</p>
+            <h3 class="text-3xl font-bold mt-1">{{ integrations_count }}</h3>
+            <div class="mt-2 text-xs text-slate-400">Active data flows</div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+            <h3 class="text-lg font-bold mb-6 flex items-center">
+                <span class="w-2 h-6 bg-[#fee600] rounded-full mr-3"></span>
+                Criticality Distribution
+            </h3>
+            <div class="h-[300px]">
+                <canvas id="criticalityChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+            <h3 class="text-lg font-bold mb-6 flex items-center">
+                <span class="w-2 h-6 bg-black rounded-full mr-3"></span>
+                Portfolio by Domain
+            </h3>
+            <div class="h-[300px]">
+                <canvas id="domainChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Criticality Chart (Doughnut)
+    new Chart(document.getElementById('criticalityChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['High', 'Medium', 'Low'],
+            datasets: [{
+                data: [{{ critical_apps }}, {{ medium_apps }}, {{ low_apps }}],
+                backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+                borderWidth: 0,
+                hoverOffset: 10
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
+            },
+            cutout: '70%'
+        }
+    });
+
+    // Domain Chart (Bar)
+    new Chart(document.getElementById('domainChart'), {
+        type: 'bar',
+        data: {
+            labels: {{ domain_labels|safe }},
+            datasets: [{
+                label: 'Apps per Domain',
+                data: {{ domain_counts|safe }},
+                backgroundColor: '#000000',
+                borderRadius: 8
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { display: false } },
+                x: { grid: { display: false } }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
+</script>
+{% endblock %}

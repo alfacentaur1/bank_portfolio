@@ -1,0 +1,18 @@
+<div class="w-full flex flex-col items-center">
+    <div class="mermaid w-full bg-white p-4 rounded-lg shadow-inner overflow-x-auto">
+        {{ mermaid_code|safe }} 
+    </div>
+    
+    <button hx-get="{% url 'generate_mermaid' app.id %}" 
+            hx-target="#mermaid-container" 
+            class="mt-6 text-sm font-bold uppercase border-b-2 border-black hover:text-gray-600 transition">
+        Regenerate (if check failed) 
+    </button>
+</div>
+
+<script>
+    // Vital for HTMX: re-runs the mermaid parser on the newly injected HTML
+    if (window.mermaid) {
+        mermaid.contentLoaded();
+    }
+</script>
