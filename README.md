@@ -19,7 +19,7 @@ Ensure you have **Python 3.11** or higher installed.
 Create a `.env` file in the root directory and add your OpenAI API key:
 ```text
 OPENAI_API_KEY=your_sk_key_here
-
+```
 # Install required packages
 pip install django openai python-dotenv
 
