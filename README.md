@@ -12,43 +12,43 @@
 
 ---
 
-### 1. Prerequisites
+## 1. Prerequisites
 Ensure you have **Python 3.11** or higher installed.
 
-### 2. Environment Configuration
+## 2. Environment Configuration
 Create a `.env` file in the root directory and add your OpenAI API key:
 ```text
 OPENAI_API_KEY=your_sk_key_here
 ```
-# Install required packages
+### Install required packages
 pip install django openai python-dotenv
 
-# Run migrations to set up the database schema
+### Run migrations to set up the database schema
 python manage.py migrate
 
-# Generate the portfolio using AI (this takes 30-60 seconds)
+### Generate the portfolio using AI (this takes 30-60 seconds)
 python manage.py seed_data
 
-# Run server
+### Run server
 python manage.py runserver
 
 Visit the application at http://127.0.0.1:8000/ (typically)
 
-### 3. Demo instructions
-# Analysis 
+## 3. Demo instructions
+### Analysis 
 Dashboard > Run AI audit
 Dashboard > AI reports
 
-# Q&A
+### Q&A
 Dashboard > Ask AI Assistant
 
-# Mermaid
+ Mermaid
 Dashboard > Inventory > Detail > GENERATE ARCHITECTURE 
 
-# CRUD
+### CRUD
 Dashboard > Integrations
 
-### 4. Improvements
+## 4. Improvements
 Monitoring: Log changes and audit trails.
 
 Tests: Automated tests for AI logic.
