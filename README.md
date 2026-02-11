@@ -21,16 +21,24 @@ Create a `.env` file in the root directory and add your OpenAI API key:
 OPENAI_API_KEY=your_sk_key_here
 ```
 ### Install required packages
+```bash
 pip install django openai python-dotenv
+```
 
 ### Run migrations to set up the database schema
+```bash
 python manage.py migrate
+```
 
 ### Generate the portfolio using AI (this takes 30-60 seconds)
+```bash
 python manage.py seed_data
+```
 
 ### Run server
+```bash
 python manage.py runserver
+```
 
 Visit the application at http://127.0.0.1:8000/ (typically)
 
