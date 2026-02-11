@@ -13,7 +13,6 @@ class AIClient:
         self.client = openai.OpenAI(api_key=api_key)
         self.model = "gpt-4o"
 
-    # Zkontroluj jméno a argumenty tady:
     def get_completion(self, prompt, system_prompt="You are a helpful assistant."):
         try:
             response = self.client.chat.completions.create(
